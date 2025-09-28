@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clidder — Digital Register Download</title>
+  <link rel="icon" href="https://i.ibb.co/tP3DmRxS/clidder-new-icon.webp" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#1e293b;
+      --muted:#475569;
+      --accent:#ff6a00;
+      --accent2:#16a34a;
+      --card:#f8fafc;
+      --radius:14px;
+      --shadow:0 6px 20px rgba(0,0,0,0.08);
+    }
+    *{box-sizing:border-box;scrollbar-width:thin;scrollbar-color:var(--accent) #f1f5f9}
+    body::-webkit-scrollbar{width:10px}
+    body::-webkit-scrollbar-track{background:#f1f5f9;border-radius:10px}
+    body::-webkit-scrollbar-thumb{background:var(--accent);border-radius:10px}
+
+    body{
+      font-family:Inter,system-ui,sans-serif;
+      margin:0;
+      background:linear-gradient(180deg,#fdfdfd,#f8fafc), url('https://i.ibb.co/tQjMPR7/light-bg.jpg') no-repeat center center fixed;
+      background-size:cover;
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;line-height:1.6;
+    }
+
+    .container{max-width:1200px;margin:0 auto;padding:24px}
+
+    /* Navbar */
+    header{position:sticky;top:0;background:#ffffffcc;backdrop-filter:blur(8px);border-bottom:1px solid #e2e8f0;z-index:20;box-shadow:var(--shadow)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+    .brand img{width:42px;height:42px;border-radius:10px;box-shadow:var(--shadow)}
+    .brand h1{font-size:20px;margin:0;font-weight:700;letter-spacing:-0.5px}
+    nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600;transition:.2s}
+    nav a:hover{color:var(--accent)}
+    .cta{background:var(--accent);padding:10px 18px;border-radius:12px;color:white;text-decoration:none;font-weight:600;transition:.2s}
+    .cta:hover{background:#e65c00}
+
+    /* Hero */
+    .hero{padding:100px 20px;text-align:center;background:rgba(255,255,255,0.75);border-radius:20px;box-shadow:var(--shadow);backdrop-filter:blur(4px)}
+    .hero h2{font-size:44px;margin:0 0 16px;color:var(--text)}
+    .hero p{color:var(--muted);max-width:720px;margin:0 auto 32px;font-size:18px}
+    .hero-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+    .btn{padding:12px 24px;border-radius:12px;font-weight:600;text-decoration:none;transition:.25s}
+    .btn-primary{background:var(--accent);color:white;box-shadow:var(--shadow)}
+    .btn-primary:hover{background:#e65c00;transform:translateY(-2px)}
+    .btn-secondary{background:var(--accent2);color:white;box-shadow:var(--shadow)}
+    .btn-secondary:hover{background:#138a3c;transform:translateY(-2px)}
+
+    /* Download */
+    .section{padding:80px 0}
+    .section h2{text-align:center;margin-bottom:20px;font-size:30px;font-weight:700}
+    .download-options{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+    .download-card{flex:1;min-width:280px;background:var(--card);padding:28px;border-radius:var(--radius);border:1px solid #e2e8f0;text-align:center;box-shadow:var(--shadow);transition:.25s}
+    .download-card:hover{transform:translateY(-6px) scale(1.02)}
+    .download-card i{font-size:44px;margin-bottom:14px;color:var(--accent)}
+    .download-card h3{margin:0 0 8px;font-size:22px}
+    .download-card p{color:var(--muted);margin-bottom:12px}
+    .version{font-size:14px;color:var(--muted);margin-bottom:16px;font-style:italic}
+
+    /* Release notes grid */
+    .release-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:50px}
+    .release-box{background:var(--card);padding:28px;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid #e2e8f0;transition:.25s}
+    .release-box:hover{transform:translateY(-4px)}
+    .release-version{font-weight:700;color:var(--accent);margin-bottom:4px;font-size:18px}
+    .release-date{font-size:14px;color:var(--muted);margin-bottom:10px}
+    .release-notes{margin:0;color:var(--text);padding-left:18px}
+    details{margin-top:14px}
+    summary{cursor:pointer;font-weight:600;color:var(--accent)}
+    summary:hover{text-decoration:underline}
+    .old-download{margin-top:8px;font-size:14px}
+    .old-download a{color:var(--accent);text-decoration:none;font-weight:600}
+    .old-download a:hover{text-decoration:underline}
+
+    /* Timeline */
+    .timeline{margin:70px auto;max-width:800px;position:relative}
+    .timeline::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:3px;background:#e2e8f0;transform:translateX(-50%)}
+    .timeline-item{position:relative;width:50%;padding:20px 30px;box-sizing:border-box}
+    .timeline-item.left{left:0;text-align:right}
+    .timeline-item.right{left:50%}
+    .timeline-dot{position:absolute;top:28px;left:50%;transform:translateX(-50%);width:20px;height:20px;background:var(--accent);border-radius:50%;border:4px solid #fff;box-shadow:var(--shadow);z-index:5}
+    .timeline-content{background:var(--card);padding:20px 24px;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid #e2e8f0;position:relative}
+    .timeline-content h4{margin:0;color:var(--accent);font-size:17px}
+    .timeline-content p{margin:6px 0 0;color:var(--muted);font-size:15px}
+    .timeline-icon{font-size:18px;color:var(--accent);margin-right:6px}
+
+    /* Contact */
+    form{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:14px;background:var(--card);padding:28px;border-radius:var(--radius);box-shadow:var(--shadow)}
+    input,textarea{padding:12px;border-radius:10px;border:1px solid #e2e8f0;font-family:inherit;font-size:15px}
+    input:focus,textarea:focus{outline:none;border-color:var(--accent)}
+    button{padding:12px 18px;border-radius:10px;border:none;background:var(--accent);color:white;font-weight:600;cursor:pointer;transition:.25s;box-shadow:var(--shadow)}
+    button:hover{background:#e65c00;transform:translateY(-2px)}
+
+    /* Footer */
+    footer{padding:50px 0;border-top:1px solid #e2e8f0;margin-top:60px;text-align:center;color:var(--muted);font-size:14px}
+
+    @media(max-width:800px){
+      .release-grid{grid-template-columns:1fr}
+      .timeline-item{width:100%;left:0!important;text-align:left!important;padding-left:60px;padding-right:20px}
+      .timeline::before{left:30px}
+      .timeline-dot{left:30px;transform:none}
+    }
+    @media(max-width:640px){
+      nav ul{display:none}
+      .container{padding:16px}
+      .hero h2{font-size:32px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- NAVBAR -->
+    <header class="nav">
+      <a class="brand" href="#">
+        <img src="https://i.ibb.co/tP3DmRxS/clidder-new-icon.webp" alt="Clidder logo" />
+        <h1>Clidder</h1>
+      </a>
+
+      <nav>
+        <ul>
+          <li><a href="#download">Download</a></li>|
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <a class="cta" href="#download">Get Started</a>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <h2>Download Digital Register</h2>
+      <p>Access the latest version of our Digital Register software for Windows and Android.</p>
+      <div class="hero-buttons">
+        <a class="btn btn-primary" href="#download">See Downloads</a>
+        <a class="btn btn-secondary" href="#contact">Contact Us</a>
+      </div>
+    </section>
+
+    <!-- DOWNLOAD -->
+    <section id="download" class="section">
+      <h2>Available Downloads</h2>
+      <div class="download-options">
+        <div class="download-card">
+          <i class="fa-brands fa-windows"></i>
+          <h3>Windows</h3>
+          <p>Desktop version with auto-updates.</p>
+          <div class="version">Version 2.1.0</div>
+          <a class="btn btn-primary" href="https://mega.nz/file/WxpyxbrJ#vHHdZkB3QV_JqlNho1qbIT4F2KZtZiVx7VQTzFf4w5Q">Download for Windows</a>
+        </div>
+        <div class="download-card">
+          <i class="fa-brands fa-android"></i>
+          <h3>Android</h3>
+          <p>Install the mobile APK and use Clidder anywhere.</p>
+          <div class="version">Version 2.0.5</div>
+          <a class="btn btn-secondary" href="https://apk.e-droid.net/apk/app3760106-wlhyu5.apk?v=2">Download for Android</a>
+        </div>
+      </div>
+
+      <!-- RELEASE NOTES in two columns -->
+      <div class="release-grid">
+        <div class="release-box">
+          <div class="release-version">v2.1.0 (Windows)</div>
+          <div class="release-date">Released: Sep 2025</div>
+          <ul class="release-notes">
+            <li>Improved performance and faster startup.</li>
+            <li>Added export to Excel option.</li>
+            <li>Minor bug fixes and UI enhancements.</li>
+          </ul>
+          <details>
+            <summary>Previous Versions</summary>
+            <div class="release-item">
+              <div class="release-version">v2.0.0</div>
+              <div class="release-date">Released: Sep 2025</div>
+              <ul class="release-notes">
+                <li>First public release for Windows platform.</li>
+                <li>Basic attendance and reporting features.</li>
+              </ul>
+              <div class="old-download">👉 <a href="#">Download v2.0.0</a></div>
+            </div>
+          </details>
+        </div>
+
+        <div class="release-box">
+          <div class="release-version">v2.0.5 (Android)</div>
+          <div class="release-date">Released: Sep 2025</div>
+          <ul class="release-notes">
+            <li>Added offline attendance mode.</li>
+            <li>Improved sync reliability.</li>
+            <li>Security updates applied.</li>
+          </ul>
+          <details>
+            <summary>Previous Versions</summary>
+            <div class="release-item">
+              <div class="release-version">v1.5.0</div>
+              <div class="release-date">Released: Sep 2025</div>
+              <ul class="release-notes">
+                <li>Initial Android support with core register functions.</li>
+                <li>Manual sync only.</li>
+              </ul>
+              <div class="old-download">👉 <a href="#">Download v1.5.0</a></div>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- TIMELINE -->
+      <h2 style="text-align:center;margin-top:60px">Changelog Timeline</h2>
+      <div class="timeline">
+        <div class="timeline-item left">
+          <span class="timeline-dot"></span>
+          <div class="timeline-content">
+            <h4><i class="fa-solid fa-desktop timeline-icon"></i> Sep 2025 — Windows v2.1.0</h4>
+            <p>Improved startup, Excel export, bug fixes.</p>
+          </div>
+        </div>
+        <div class="timeline-item right">
+          <span class="timeline-dot"></span>
+          <div class="timeline-content">
+            <h4><i class="fa-brands fa-android timeline-icon"></i> Sep 2025 — Android v2.0.5</h4>
+            <p>Offline attendance, sync improvements, security updates.</p>
+          </div>
+        </div>
+        <div class="timeline-item left">
+          <span class="timeline-dot"></span>
+          <div class="timeline-content">
+            <h4><i class="fa-solid fa-desktop timeline-icon"></i> Sep 2025 — Windows v2.0.0</h4>
+            <p>First public Windows release with attendance tracking.</p>
+          </div>
+        </div>
+        <div class="timeline-item right">
+          <span class="timeline-dot"></span>
+          <div class="timeline-content">
+            <h4><i class="fa-brands fa-android timeline-icon"></i> Sep 2025 — Android v1.5.0</h4>
+            <p>Initial Android version with manual sync.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <h2 style="text-align:center">Contact Us</h2>
+      <p style="text-align:center;color:var(--muted)">Have questions or need support? Send us a message directly.</p>
+      <form action="mailto:jmp.induwarapjayasinghe@gmail.com" method="post" enctype="text/plain">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      © 2025 Clidder Corporation | An Induwara Jayasinghe Holdings Company Limited. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const t=document.querySelector(a.getAttribute('href'));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});} }); });
+  </script>
+</body>
+</html>
